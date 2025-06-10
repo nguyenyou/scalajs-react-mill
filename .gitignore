@@ -1,0 +1,46 @@
+# Scala
+target
+
+# JS
+node_modules
+
+# Others
+.idea
+*.iml
+*.swp
+.DS_STORE
+.DS_Store
+/.bsp
+/.bloop
+/out
+# Local Netlify folder
+.netlify
+/.metals
+/webTarget
+/local
+
+# yarn
+.pnp.*
+.yarn/
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# vite
+dist
+
+# Cursor IDE
+# The .cursorignore file is used to limit file indexing (max 10,000 files)
+# This file should be personalized per developer and not committed to the repo
+.cursorignore
+
+# Ignore all files in .vscode except settings.json
+.vscode/*
+!.vscode/settings.json
+
+# Cursor IDE
+.cursor
+
+.vscode
