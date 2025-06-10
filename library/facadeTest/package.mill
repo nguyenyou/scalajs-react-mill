@@ -1,7 +1,0 @@
-package build.library.facadeTest
-
-import build.library.facadeMain
-
-object `package` extends build.WebModule {
-    def moduleDeps = super.moduleDeps ++ Seq(facadeMain)
-}

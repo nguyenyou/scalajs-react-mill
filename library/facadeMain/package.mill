@@ -1,3 +1,0 @@
-package build.library.facadeMain
-
-object `package` extends build.WebModule

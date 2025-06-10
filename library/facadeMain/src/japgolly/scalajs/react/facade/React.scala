@@ -41,7 +41,7 @@ object React extends React {
   //  @JSImport("react", "Component", "React.Component")
   @js.native
   abstract class Component[P <: js.Object, S <: js.Object](ctorProps: P = js.native) extends js.Object {
-    final type Props = P with PropsWithChildren
+    final type Props = P & PropsWithChildren
     final type State = S
 
     final def props: Props = js.native
@@ -78,26 +78,26 @@ object React extends React {
   // type ComponentClass [P <: js.Object, S <: js.Object] = js.Function1[P, React.Component[P, S]] with HasDisplayName
   // type ComponentClassP[P <: js.Object]                 = ComponentClass[P, _ <: js.Object]
   // type ComponentClassUntyped                           = ComponentClass[_ <: js.Object, _ <: js.Object]
-  type ComponentClass [P <: js.Object, S <: js.Object] = js.Function1[P, React.Component[P, S]] with HasDisplayName
-  type ComponentClassP[P <: js.Object]                 = js.Function1[P, React.Component[P, _ <: js.Object]] with HasDisplayName
-  type ComponentClassUntyped                           = js.Function1[_ <: js.Object, React.Component[_ <: js.Object, _ <: js.Object]] with HasDisplayName
+  type ComponentClass [P <: js.Object, S <: js.Object] = js.Function1[P, React.Component[P, S]] & HasDisplayName
+  type ComponentClassP[P <: js.Object]                 = js.Function1[P, React.Component[P, ? <: js.Object]] & HasDisplayName
+  type ComponentClassUntyped                           = js.Function1[? <: js.Object, React.Component[? <: js.Object, ? <: js.Object]] & HasDisplayName
 
   /** A `React.Element` that is known to be a component */
   @js.native
   trait ComponentElement[P <: js.Object] extends React.Element {
     def `type`: React.Constructor[P]
-    def props: P with PropsWithChildren
+    def props: P & PropsWithChildren
   }
 
-  type ComponentUntyped = Component[_ <: js.Object, _ <: js.Object]
+  type ComponentUntyped = Component[? <: js.Object, ? <: js.Object]
 
   // TODO https://github.com/lampepfl/dotty/issues/12115
   type ComponentType[Props <: js.Object] =
-    (js.Function1[Props, React.Component[Props, _ <: js.Object]] with HasDisplayName) | // TODO: ComponentClass[Props, _ <: js.Object] |
-    ForwardRefComponent[Props, _] |
+    (js.Function1[Props, React.Component[Props, ? <: js.Object]] & HasDisplayName) | // TODO: ComponentClass[Props, _ <: js.Object] |
+    ForwardRefComponent[Props, ?] |
     StatelessFunctionalComponent[Props]
 
-  type Constructor[P <: js.Object] = js.Function1[P, js.Any] with HasDisplayName
+  type Constructor[P <: js.Object] = js.Function1[P, js.Any] & HasDisplayName
 
   /** A `React.Element` that is known to be DOM */
   @js.native
@@ -123,9 +123,9 @@ object React extends React {
   // TODO: type ElementType = String | ComponentType[_ <: js.Object]
   type ElementType =
     String |
-    (js.Function1[_ <: js.Object, React.Component[_ <: js.Object, _ <: js.Object]] with HasDisplayName) |
-    ForwardRefComponent[_ <: js.Object, _] |
-    StatelessFunctionalComponent[_ <: js.Object]
+    (js.Function1[? <: js.Object, React.Component[? <: js.Object, ? <: js.Object]] & HasDisplayName) |
+    ForwardRefComponent[? <: js.Object, ?] |
+    StatelessFunctionalComponent[? <: js.Object]
 
   @js.native
   trait ErrorInfo extends js.Object {
@@ -165,7 +165,7 @@ object React extends React {
     var displayName: js.UndefOr[String] = js.native
     val `$$typeof`: js.Symbol = js.native
     val render: js.Function2[P, ForwardedRef[R], Node] = js.native
-    def props: P with PropsWithChildren
+    def props: P & PropsWithChildren
   }
 
   @js.native
@@ -212,7 +212,7 @@ trait React extends Hooks {
 
   final def createRef[A](): RefHandle[A] = js.native
 
-  final def forwardRef[P <: js.Object, R](f: js.Function2[P with PropsWithChildren, ForwardedRef[R], Node]): ForwardRefComponent[P, R] = js.native
+  final def forwardRef[P <: js.Object, R](f: js.Function2[P & PropsWithChildren, ForwardedRef[R], Node]): ForwardRefComponent[P, R] = js.native
 
   /** @since 16.6.0 */
   final def `lazy`[P <: js.Object](f: js.Function0[js.Promise[LazyResult[P]]]): Lazy[P] = js.native
