@@ -11,7 +11,6 @@ import scala.scalajs.js.|
 object ReactDOM extends ReactDOM
 
 @js.native
-@nowarn("cat=unused")
 trait ReactDOM extends js.Object {
 
   val version: String = js.native

@@ -9,7 +9,6 @@ import scala.scalajs.js.|
   * @since React 16.8.0 / scalajs-react 2.0.0
   */
 @js.native
-@nowarn("cat=unused")
 trait Hooks extends js.Object {
 
   final type HookDeps = js.UndefOr[js.Array[?]] | Null

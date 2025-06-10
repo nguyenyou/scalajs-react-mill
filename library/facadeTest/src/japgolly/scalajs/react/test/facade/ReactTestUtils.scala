@@ -12,7 +12,6 @@ import scala.scalajs.js.|
 object ReactTestUtils extends ReactTestUtils
 
 @js.native
-@nowarn("cat=unused")
 trait ReactTestUtils extends js.Object {
 
   final val Simulate: Simulate = js.native

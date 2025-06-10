@@ -8,6 +8,12 @@ object Versions {
   val sjs = "1.19.0"
   val sjsdom = "2.8.0"
   val utest = "0.8.5"
+  val catsEffect = "3.5.4"
+  val cats = "2.12.0"
+  val sourcecode = "0.4.2"
+  val microlibs = "4.1.0"
+  val monocle2 = "2.1.0"
+  val monocle3 = "3.2.0"
 }
 
 trait WebModule extends ScalaJSModule {
@@ -26,15 +32,22 @@ trait WebModule extends ScalaJSModule {
 
   def mvnDeps = Seq(
     mvn"org.scala-js::scalajs-dom::${Versions.sjsdom}",
+    mvn"org.typelevel::cats-effect::${Versions.catsEffect}",
+    mvn"org.typelevel::cats-core::${Versions.cats}",
+    mvn"com.github.japgolly.microlibs::compile-time::${Versions.microlibs}",
+    mvn"com.github.japgolly.microlibs::test-util::${Versions.microlibs}",
+    mvn"com.github.japgolly.microlibs::types::${Versions.microlibs}",
   )
 }
 
 object library extends WebModule {
-  object callback extends WebModule {}
+  object callback extends WebModule {
+    def moduleDeps = Seq(util)
+  }
   
   object utilFallbacks extends WebModule {}
 
-  object utils extends WebModule {
+  object util extends WebModule {
     def moduleDeps = Seq(utilFallbacks)
   }
   
@@ -43,4 +56,33 @@ object library extends WebModule {
   object facadeTest extends WebModule {
     def moduleDeps = Seq(facadeMain)
   }
+
+  object coreGeneric extends WebModule {
+    def moduleDeps = Seq(facadeMain, util, utilDummyDefaults)
+  }
+
+  object coreBundleCBIO extends WebModule {
+    def moduleDeps = Seq(callback, coreExtCatsEffect)
+  }
+
+  object coreExtCats extends WebModule {
+    def moduleDeps = Seq(coreGeneric)
+  }
+
+  object coreExtCatsEffect extends WebModule {
+    def moduleDeps = Seq(coreExtCats, utilCatsEffect, utilFallbacks)
+  }
+
+  object callbackExtCats extends WebModule {
+    def moduleDeps = Seq(callback)
+  }
+
+  object utilDummyDefaults extends WebModule {
+    def moduleDeps = Seq(util, utilFallbacks)
+  }
+
+  object utilCatsEffect extends WebModule {
+    def moduleDeps = Seq(util)
+  }
+  
 }

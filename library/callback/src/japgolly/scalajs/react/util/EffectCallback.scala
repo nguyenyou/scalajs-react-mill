@@ -29,7 +29,7 @@ object EffectCallback {
       fa.reset
 
     @inline override def runAll[A](callbacks: CallbackTo[A]*): Callback =
-      Callback.runAll(callbacks: _*)
+      Callback.runAll(callbacks*)
 
     @inline override def delay[A](a: => A) =
       CallbackTo(a)
@@ -94,10 +94,10 @@ object EffectCallback {
       CallbackOption.pure(a)
 
     @inline override def map[A, B](fa: CallbackOption[A])(f: A => B): CallbackOption[B] =
-      fa map f
+      fa `map` f
 
     @inline override def flatMap[A, B](fa: CallbackOption[A])(f: A => CallbackOption[B]): CallbackOption[B] =
-      fa flatMap f
+      fa `flatMap` f
 
     @inline override def tailrec[A, B](a: A)(f: A => CallbackOption[Either[A,B]]) =
       CallbackOption.tailrec(a)(f)

@@ -9,7 +9,6 @@ import scala.scalajs.js.annotation._
 object ReactDOMServer extends ReactDOMServer
 
 @js.native
-@nowarn("cat=unused")
 trait ReactDOMServer extends js.Object {
 
   val version: String = js.native
