@@ -7,6 +7,9 @@ import scala.util.NotGiven
 trait VdomNode extends TagMod {
   def rawNode: facade.React.Node
 
+  override def applyTo(b: VdomBuilder): Unit =
+    b.appendChild(rawNode)
+
   @deprecated(
     "Use ReactDOM.createRoot and root.render instead",
     "2.2.0 / React v18"
