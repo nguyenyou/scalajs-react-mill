@@ -1,1 +1,54 @@
 //| mill-version: 1.0.0
+
+package build
+
+import mill._, scalalib._, scalajslib._
+import mill.scalajslib.api._
+
+object Versions {
+    val scala3 = "3.7.0"
+    val sjs = "1.19.0"
+    val sjsdom = "2.8.0"
+    val scalatest = "3.2.19"
+    val ew = "0.2.0"
+    val tuplez = "0.4.0"
+    val scaladomtestutils = "18.0.0"
+    val urldsl = "0.6.2"
+    val upickle = "2.0.0"
+}
+
+trait WebModule extends ScalaJSModule { 
+    def scalaVersion = Versions.scala3
+    def scalaJSVersion = Versions.sjs
+
+    def scalacOptions = Seq(
+      "-rewrite",
+      "-source", "3.4-migration",
+      "-feature",
+      "-language:implicitConversions"
+    )
+    
+    def mvnDeps = Seq(
+      mvn"org.scala-js::scalajs-dom::${Versions.sjsdom}",
+    )
+
+    object test extends ScalaJSTests with TestModule.ScalaTest {
+        def scalaTestVersion = Versions.scalatest
+
+        def mvnDeps = super.mvnDeps() ++ Seq(
+            mvn"com.raquo::domtestutils::${Versions.scaladomtestutils}",
+        )
+
+        def scalacOptions = Seq(
+            "-rewrite",
+            "-source", "3.4-migration",
+            "-feature",
+            "-language:implicitConversions"
+        )
+
+        def jsEnvConfig = Task { JsEnvConfig.JsDom() }
+    }
+}
+
+object facadeMain extends WebModule {
+}
